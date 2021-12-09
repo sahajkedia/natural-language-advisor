@@ -1,6 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
 const Student = require("../models/StudentSchema");
-// const Admin = require('../models/AdminSchema')
 const MCQuestion = require("../models/MCQuestionSchema");
 const RiddleQuestion = require("../models/RiddleSchema");
 const StudentSignup = async (req, res, next) => {
@@ -45,11 +44,11 @@ const MCQuestionAdding = (req, res, next) => {
 
     console.log(quizQs);
     res.status(200).json({
-      message: "Khubh Bhalo",
+      message: "Question Saved",
     });
   } catch (c) {
     res.status(404).json({
-      msg: "Not Possible",
+      message: "Not Possible to Save Successfully",
     });
   }
 };
@@ -103,11 +102,11 @@ const RiddlesAdding = (req, res, next) => {
 
     console.log(RiddleQs);
     res.status(200).json({
-      message: "Khubh Bhalo",
+      message: "Riddle Saved "
     });
   } catch (c) {
     res.status(404).json({
-      msg: "Not Possible",
+      message: "Not Possible to Save Successfully",
     });
   }
 };
