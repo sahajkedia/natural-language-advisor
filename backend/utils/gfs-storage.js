@@ -23,7 +23,7 @@ const storage = (function () {
           if (err) {
             return reject(err);
           }
-          // turn the random bytes into a string and add the file extentsion at the end of it (.mp4)
+          // turn the random bytes into a string and add the file extension at the end of it (.mp4)
           // this way our file names will not collide if someone uploads the same file twice
           const filename =
             buf.toString("hex") + path.extname(file.originalname);

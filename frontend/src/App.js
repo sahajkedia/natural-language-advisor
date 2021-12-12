@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./App.css";
 
 const App = () => {
   const [file, setFile] = useState(null);
@@ -66,11 +67,11 @@ const App = () => {
 
   return (
     <div className="App">
-      <form className="Form" onSubmit={fileUploadHandler}>
+      <form className="form" onSubmit={fileUploadHandler}>
         <input type="file" onChange={fileHandler} />
         <button type="submit">upload</button>
       </form>
-      <div className="Media">
+      <div className="media">
         {files.map((file, i) => (
           <div key={file._id} className="Item">
             <video id="videoPlayer" width="650" controls muted="muted" autoplay>
@@ -79,14 +80,17 @@ const App = () => {
                 type="video/mp4"
               />
             </video>
-            <button
-              type="button"
-              onClick={() => {
-                removeFile(file, i);
-              }}
-            >
-              Remove
-            </button>
+            <div>
+              <button
+                className="remove-btn"
+                type="button"
+                onClick={() => {
+                  removeFile(file, i);
+                }}
+              >
+                Remove
+              </button>
+            </div>
           </div>
         ))}
       </div>
