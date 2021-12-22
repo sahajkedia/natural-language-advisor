@@ -19,6 +19,7 @@ mongoose
   })
   .catch((err) => {
     console.log(err);
+    process.exit();
   });
 
 const port = process.env.PORT || 3000;
