@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+
 const Video = () => {
   const [file, setFile] = useState(null);
   const [files, setFiles] = useState([]);
@@ -67,7 +68,7 @@ const Video = () => {
     <div className="App">
       <form className="form" onSubmit={fileUploadHandler}>
         <input type="file" onChange={fileHandler} />
-        <button type="submit">upload</button>
+        <button type="primary">upload</button>
       </form>
       <div className="media">
         {files.map((file, i) => (
@@ -81,7 +82,7 @@ const Video = () => {
             <div>
               <button
                 className="remove-btn"
-                type="button"
+                type="primary"
                 onClick={() => {
                   removeFile(file, i);
                 }}

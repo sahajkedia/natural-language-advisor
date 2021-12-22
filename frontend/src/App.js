@@ -1,12 +1,9 @@
-import "./App.scss";
 import Video from "./components/Video";
 
-const App = () => {
+export default function App() {
   return (
-    <div className="App">
+    <div>
       <Video />
     </div>
   );
-};
-
-export default App;
+}
