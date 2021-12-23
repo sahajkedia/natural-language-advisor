@@ -18,6 +18,10 @@ if (process.env.NODE_ENV === "development") {
 app.use(express.json());
 app.use(cors());
 
+
+
+
+
 //Routes
 
 // app.use("/api/v1/users", userRouter);
