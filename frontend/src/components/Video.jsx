@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./video.css";
 
 const Video = () => {
   const [file, setFile] = useState(null);
@@ -65,12 +66,14 @@ const Video = () => {
   }, [fetchFiles]);
 
   return (
-    <div className="App">
+    <div className="container-lg">
       <form className="form" onSubmit={fileUploadHandler}>
         <input type="file" onChange={fileHandler} />
-        <button type="primary">upload</button>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Upload
+        </button>
       </form>
-      <div className="media">
+      <div className="video-container">
         {files.map((file, i) => (
           <div key={file._id} className="Item">
             <video id="videoPlayer" width="650" controls muted="muted" autoplay>

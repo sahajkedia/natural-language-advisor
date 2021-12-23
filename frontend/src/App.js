@@ -1,9 +1,9 @@
-import Video from "./components/Video";
-
+import UploadQuestions from "./components/UploadQuestions";
+import "./App.css";
 export default function App() {
   return (
-    <div>
-      <Video />
+    <div className="container">
+      <UploadQuestions />
     </div>
   );
 }
