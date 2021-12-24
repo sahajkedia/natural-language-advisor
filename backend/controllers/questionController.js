@@ -1,4 +1,4 @@
-const Question = require("../models/Question");
+const Question = require("../models/QuestionSchema");
 
 exports.getAllQuestions = async (req, res) => {
   try {
