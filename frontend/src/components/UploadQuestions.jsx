@@ -31,7 +31,7 @@ const UploadQuestions = () => {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={questionType.name}
+            value={questionType}
             label="Question Type"
             onChange={handleChange}
           >
