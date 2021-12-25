@@ -11,9 +11,10 @@ import {
   FormControl,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 import DraftEditor from "./draft";
+import UploadFile from "./upload/UploadFile";
 
 const LabelStyle = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle2,
@@ -62,6 +63,30 @@ export default function NewQuestionForm() {
     setSubDomainType(event.target.value);
   };
 
+  const [files, setFiles] = useState([]);
+
+  const handleDropMultiFile = useCallback(
+    (acceptedFiles) => {
+      setFiles(
+        acceptedFiles.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        )
+      );
+    },
+    [setFiles]
+  );
+
+  const handleRemoveAll = () => {
+    setFiles([]);
+  };
+
+  const handleRemove = (file) => {
+    const filteredItems = files.filter((_file) => _file !== file);
+    setFiles(filteredItems);
+  };
+
   return (
     <>
       <Container maxWidth="lg">
@@ -86,7 +111,7 @@ export default function NewQuestionForm() {
                     select
                     fullWidth
                     label="Question Type"
-                    value={questionType.name}
+                    value={questionType}
                     onChange={handleQuestionType}
                     helperText="Please select the question type"
                   >
@@ -101,7 +126,7 @@ export default function NewQuestionForm() {
                     select
                     fullWidth
                     label="Domain"
-                    value={domainType.name}
+                    value={domainType}
                     onChange={handleDomainType}
                     helperText="Please select the question type"
                   >
@@ -118,7 +143,7 @@ export default function NewQuestionForm() {
                       select
                       fullWidth
                       label="Sub-Domain"
-                      value={subDomainType.name}
+                      value={subDomainType}
                       onChange={handleSubDomainType}
                       helperText="Please select the question type"
                     >
@@ -142,6 +167,14 @@ export default function NewQuestionForm() {
                   <LabelStyle>Complete Solution (Optional)</LabelStyle>
                   <DraftEditor id="post-content" />
                 </div>
+                <LabelStyle>Supporting Material</LabelStyle>
+
+                <UploadFile
+                  files={files}
+                  onDrop={handleDropMultiFile}
+                  onRemove={handleRemove}
+                  onRemoveAll={handleRemoveAll}
+                />
 
                 <Button variant="contained" color="primary">
                   Submit
