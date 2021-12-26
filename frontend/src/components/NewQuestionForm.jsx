@@ -4,6 +4,8 @@ import { Form, FormikProvider, useFormik } from "formik";
 import { LoadingButton } from "@mui/lab";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { convertToRaw, convertFromHTML, EditorState } from "draft-js";
+import draftToHtml from "draftjs-to-html";
 import {
   Box,
   Card,
@@ -79,6 +81,8 @@ export default function NewQuestionForm() {
   const [questionType, setQuestionType] = useState(quesType[0].name);
   const [domainType, setDomainType] = useState(domains[0].name);
   const [subDomainType, setSubDomainType] = useState(subDomains[0].name);
+  const [draftSimple, setDraftSimple] = useState(EditorState.createEmpty());
+  const [draftSimple1, setDraftSimple1] = useState(EditorState.createEmpty());
 
   const formik = useFormik({
     initialValues: {
@@ -89,7 +93,7 @@ export default function NewQuestionForm() {
       question: {},
       answer: "",
       supportingMaterials: null,
-      solution: "",
+      solution: {},
     },
     validationSchema: NewQuestionSchema,
   });
@@ -108,6 +112,12 @@ export default function NewQuestionForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      values.question = draftToHtml(
+        convertToRaw(draftSimple1.getCurrentContent())
+      );
+      values.solution = draftToHtml(
+        convertToRaw(draftSimple.getCurrentContent())
+      );
       console.log(values);
       await fakeRequest(500);
       resetForm();
@@ -236,11 +246,9 @@ export default function NewQuestionForm() {
                   <LabelStyle>Question</LabelStyle>
                   <DraftEditor
                     id="question"
-                    value={values.question}
+                    editorState={draftSimple1}
                     placeholder="Enter your question here"
-                    onChange={(content) => {
-                      setFieldValue("question", content);
-                    }}
+                    onEditorStateChange={(values) => setDraftSimple1(values)}
                     error={Boolean(touched.question && errors.question)}
                   />
                   {touched.question && errors.question && (
@@ -263,12 +271,9 @@ export default function NewQuestionForm() {
                 <div>
                   <LabelStyle>Complete Solution (Optional)</LabelStyle>
                   <DraftEditor
-                    id="solution"
-                    value={values.solution}
+                    editorState={draftSimple}
+                    onEditorStateChange={(values) => setDraftSimple(values)}
                     placeholder="Enter your solution here"
-                    onChange={(content) => {
-                      setFieldValue("solution", content);
-                    }}
                   />
                 </div>
                 <LabelStyle>Supporting Material</LabelStyle>
