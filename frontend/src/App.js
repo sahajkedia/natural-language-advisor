@@ -11,8 +11,8 @@ export default function App() {
     <ThemeConfig>
       <GlobalStyles />
       {/* <NewQuestionForm /> */}
-      {/* <Assessmentfrom/> */}
-      <LoadQuestion/>
+      <Assessmentfrom/>
+      {/* <LoadQuestion/> */}
     </ThemeConfig>
   );
 }

@@ -72,29 +72,10 @@ export default function LoadQuestion() {
 
 
 
-                  {/* <DraftEditor
-                    id="question"
-                    // editorState={draftSimple1}
-                    placeholder="Enter your question here"
-                    // onEditorStateChange={(values) => setDraftSimple1(values)}
-                    // error={Boolean(touched.question && errors.question)}
-                  /> */}
-                  {/* {touched.question && errors.question && ( */}
-                    {/* <FormHelperText
-                      error
-                      sx={{ px: 2, textTransform: "capitalize" }}
-                    > */}
-                      {/* {touched.question && errors.question} */}
-                    {/* </FormHelperText> */}
-                  {/* )} */}
+                  
+              
                 </div>
-                {/* <TextField
-                  fullWidth
-                  label="Answer"
-                //   {...getFieldProps("answer")}
-                //   error={Boolean(touched.answer && errors.answer)}
-                //   helperText={touched.answer && errors.answer}
-                /> */}
+              
 
 
 
