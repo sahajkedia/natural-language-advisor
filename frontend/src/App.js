@@ -1,14 +1,14 @@
-import { React, Fragment } from "react";
+import React from "react";
+import NewQuestionForm from "./components/NewQuestionForm";
 
-import UploadQuestions from "./components/UploadQuestions";
-import "./App.css";
+import ThemeConfig from "./theme";
+import GlobalStyles from "./theme/globalStyles";
 
-import CssBaseline from "@mui/material/CssBaseline";
 export default function App() {
   return (
-    <Fragment>
-      <CssBaseline />
-      <UploadQuestions />
-    </Fragment>
+    <ThemeConfig>
+      <GlobalStyles />
+      <NewQuestionForm />
+    </ThemeConfig>
   );
 }
