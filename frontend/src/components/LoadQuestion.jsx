@@ -48,7 +48,7 @@ export default function LoadQuestion() {
             </div>
           </div>
         </div>
-        <div class="card-form__inner">
+        <div class="card-form__innerr">
           <p>What is the name of the first president (SAMPLE QUESTION)</p>
 
 
