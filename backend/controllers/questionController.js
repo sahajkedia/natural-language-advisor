@@ -10,12 +10,16 @@ exports.getAllQuestions = async (req, res) => {
 };
 
 exports.createQuestion = async (req, res) => {
+  const {question,options,answer,solution,type,difficulty,domain,subDomain,topic,supportingMaterials,createdAt} = req.body;
+  const qs = new Question({
+    question,options,answer,solution,type:1,difficulty:0,domain,subdomain:subDomain,topic,supportingMaterials,createdAt
+  })
   try {
     console.log(req.body);
-
-    // const question = await Question.create(req.body);
-    // res.json(question);
+    await  qs.save(req.body)
+    console.log("Saved Successfullly")
   } catch (err) {
+    console.log(err)
     res.status(400).send(err);
   }
 };

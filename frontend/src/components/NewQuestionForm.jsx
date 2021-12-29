@@ -20,7 +20,6 @@ import { styled } from "@mui/material/styles";
 
 import DraftEditor from "./draft";
 import UploadFile from "./upload/UploadFile";
-
 const LabelStyle = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle2,
   color: theme.palette.text.secondary,
@@ -109,8 +108,11 @@ export default function NewQuestionForm() {
     resetForm,
   } = formik;
 
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       values.question = draftToHtml(
         convertToRaw(draftSimple1.getCurrentContent())
@@ -119,7 +121,18 @@ export default function NewQuestionForm() {
         convertToRaw(draftSimple.getCurrentContent())
       );
       console.log(values);
-      await fakeRequest(500);
+      await fakeRequest(500);  
+        fetch('http://localhost:5000/api/v1/question/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json',
+                     'Accept': 'application/json' },
+          body: JSON.stringify(values)
+        })
+        .then(response => {
+          if(response.status===200){
+            console.log(JSON.stringify(response))
+          }
+        });
       resetForm();
       setSubmitting(false);
       setOpen(true); // show snackbar
@@ -128,6 +141,8 @@ export default function NewQuestionForm() {
       setSubmitting(false);
     }
   };
+
+  // we need to save the question to database so first connect the frontend to the database
 
   const handleQuestionType = (event) => {
     setQuestionType(event.target.value);
@@ -164,6 +179,7 @@ export default function NewQuestionForm() {
     const filteredItems = files.filter((_file) => _file !== file);
     setFiles(filteredItems);
   };
+
 
   return (
     <>
