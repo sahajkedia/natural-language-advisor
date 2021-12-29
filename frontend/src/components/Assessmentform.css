@@ -1,0 +1,27 @@
+h1{
+  text-align: center;
+  font-weight: 200;
+  font-family: cursive;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  font-size:2.5rem;
+}
+.fck{
+    justify-content: center;
+    
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.fc{
+    text-align: center;
+    justify-content: center;
+  margin: 2rem 40%;
+  width: 20rem;
+
+
+}
+body {
+  background:#ededed;
+}
