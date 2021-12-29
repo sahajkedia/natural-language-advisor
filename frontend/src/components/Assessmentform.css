@@ -2,7 +2,7 @@ h1{
   text-align: center;
   font-weight: 200;
   font-family: cursive;
- 
+ margin-top: 20px;
   
 }
 .fck{
@@ -23,6 +23,12 @@ h1{
 body {
   background:#ededed;
 }
-.card-form__inner {
-  padding-top: 0px;
+
+.card-form__inner{
+  background: #fff;
+  box-shadow: 0 30px 60px 0 rgba(90, 116, 148, 0.4);
+  border-radius: 10px;
+  padding: 70px;
+  
+  
 }

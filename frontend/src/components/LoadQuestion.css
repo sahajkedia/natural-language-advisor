@@ -20,9 +20,7 @@ body {
 :root{
   --primarycolor: #2364d2;
 }
-.card-form__inner {
-	padding-top: 0px;
-  }
+
 /* body{
   background: radial-gradient(
    #38dbff,
