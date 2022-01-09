@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const questionSchema = new mongoose.Schema({
   question: {
     type: String,
@@ -23,6 +22,7 @@ const questionSchema = new mongoose.Schema({
   },
   type: {
     //question type, 0 for MCQ, 1 for Subjective
+
     type: Number,
     required: [true, "Question Type is required"],
   },
@@ -31,10 +31,16 @@ const questionSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Difficulty is required"],
   },
-  domain: {
+  subcode: {
     type: String,
   },
-  subdomain: {
+  subject: {
+    type: String,
+  },
+  branch: {
+    type: String,
+  },
+  semester: {
     type: String,
   },
   topic: {

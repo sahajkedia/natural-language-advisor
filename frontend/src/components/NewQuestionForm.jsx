@@ -1,10 +1,9 @@
-import * as Yup from "yup";
-import { useState, useCallback, forwardRef } from "react";
+import { useState, useCallback, forwardRef, useEffect } from "react";
 import { Form, FormikProvider, useFormik } from "formik";
 import { LoadingButton } from "@mui/lab";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { convertToRaw, convertFromHTML, EditorState } from "draft-js";
+import { convertToRaw, EditorState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import {
   Box,
@@ -34,6 +33,37 @@ const fakeRequest = (time) => {
   return new Promise((res) => setTimeout(res, time));
 };
 
+const quesType = [
+  { id: 1, name: "MCQs" },
+  { id: 2, name: "Subjective" },
+  { id: 3, name: "Others" },
+];
+
+const semesters = [
+  { id: 1, name: "1" },
+  { id: 2, name: "2" },
+  { id: 3, name: "3" },
+  { id: 4, name: "4" },
+  { id: 5, name: "5" },
+  { id: 6, name: "6" },
+  { id: 7, name: "7" },
+  { id: 8, name: "8" },
+];
+const branches = [
+  { id: 1, name: "CSE" },
+  { id: 2, name: "ECE" },
+  { id: 3, name: "EEE" },
+  { id: 4, name: "MECH" },
+  { id: 5, name: "CIVIL" },
+  { id: 6, name: "ISE" },
+];
+
+const questionDifficulties = [
+  { id: 1, name: "Easy" },
+  { id: 2, name: "Medium" },
+  { id: 3, name: "Hard" },
+];
+
 export default function NewQuestionForm() {
   const [open, setOpen] = useState(false);
 
@@ -45,97 +75,60 @@ export default function NewQuestionForm() {
     setOpen(false);
   };
 
-  const NewQuestionSchema = Yup.object().shape({
-    question: Yup.mixed().required("Question is required"),
-    answer: Yup.string().required("Answer is required"),
-    type: Yup.string().required("Question Type is required"),
-    domain: Yup.string().required("Domain is required"),
-    subdomain: Yup.string().required("Subdomain is required"),
-  });
-
-  const quesType = [
-    { id: 1, name: "MCQs" },
-    { id: 2, name: "Subjective" },
-    { id: 3, name: "Others" },
-  ];
-
-  const domains = [
-    { id: 1, name: "Engineering" },
-    { id: 2, name: "Medical" },
-    { id: 3, name: "Law" },
-    { id: 4, name: "Commerce" },
-    { id: 5, name: "Science" },
-    { id: 6, name: "Arts" },
-    { id: 7, name: "Others" },
-  ];
-  const subDomains = [
-    { id: 1, name: "CSE" },
-    { id: 2, name: "ECE" },
-    { id: 3, name: "EEE" },
-    { id: 4, name: "MECH" },
-    { id: 5, name: "CIVIL" },
-    { id: 6, name: "ISE" },
-  ];
-
   const [questionType, setQuestionType] = useState(quesType[0].name);
-  const [domainType, setDomainType] = useState(domains[0].name);
-  const [subDomainType, setSubDomainType] = useState(subDomains[0].name);
-  const [draftSimple, setDraftSimple] = useState(EditorState.createEmpty());
-  const [draftSimple1, setDraftSimple1] = useState(EditorState.createEmpty());
+  const [branch, setBranch] = useState(branches[0].name);
+  const [semseter, setSemester] = useState(semesters[0].name);
+  const [difficulty, setDifficulty] = useState(questionDifficulties[0].name);
+  const [solution, setSolution] = useState(EditorState.createEmpty());
+  const [questionContent, setQuestionContent] = useState(
+    EditorState.createEmpty()
+  );
+  const [files, setFiles] = useState([]);
 
   const formik = useFormik({
     initialValues: {
       type: questionType,
-      domain: domainType,
-      subDomain: subDomainType,
+      branch: branch,
+      semester: semseter,
+      difficulty: difficulty,
+      subcode: "",
       topic: "",
-      question: {},
+      question: questionContent,
       answer: "",
       supportingMaterials: null,
-      solution: {},
+      solution: solution,
     },
-    validationSchema: NewQuestionSchema,
   });
 
-  const {
-    errors,
-    values,
-    touched,
-    isSubmitting,
-    setFieldValue,
-    getFieldProps,
-    setSubmitting,
-    resetForm,
-  } = formik;
-
-  
+  const { values, isSubmitting, getFieldProps, setSubmitting, resetForm } =
+    formik;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       values.question = draftToHtml(
-        convertToRaw(draftSimple1.getCurrentContent())
+        convertToRaw(questionContent.getCurrentContent())
       );
-      values.solution = draftToHtml(
-        convertToRaw(draftSimple.getCurrentContent())
-      );
+      values.solution = draftToHtml(convertToRaw(solution.getCurrentContent()));
+
       console.log(values);
-      await fakeRequest(500);  
-        fetch('http://localhost:5000/api/v1/question/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json',
-                     'Accept': 'application/json' },
-          body: JSON.stringify(values)
-        })
-        .then(response => {
-          if(response.status===200){
-            console.log(JSON.stringify(response))
-          }
-        });
+
+      // fetch("http://localhost:5000/api/v1/question/", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Accept: "application/json",
+      //   },
+      //   body: JSON.stringify(values),
+      // }).then((response) => {
+      //   if (response.status === 200) {
+      //     console.log(JSON.stringify(response));
+      //   }
+      // });
       resetForm();
       setSubmitting(false);
-      setOpen(true); // show snackbar
+      // setOpen(true); // show snackbar
     } catch (error) {
       console.error(error);
       setSubmitting(false);
@@ -148,15 +141,17 @@ export default function NewQuestionForm() {
     setQuestionType(event.target.value);
   };
 
-  const handleDomainType = (event) => {
-    setDomainType(event.target.value);
+  const handleDifficultyType = (event) => {
+    setDifficulty(event.target.value);
   };
 
-  const handleSubDomainType = (event) => {
-    setSubDomainType(event.target.value);
+  const handleSemester = (event) => {
+    setSemester(event.target.value);
   };
 
-  const [files, setFiles] = useState([]);
+  const handleBranch = (event) => {
+    setBranch(event.target.value);
+  };
 
   const handleDropMultiFile = useCallback(
     (acceptedFiles) => {
@@ -179,7 +174,6 @@ export default function NewQuestionForm() {
     const filteredItems = files.filter((_file) => _file !== file);
     setFiles(filteredItems);
   };
-
 
   return (
     <>
@@ -206,9 +200,8 @@ export default function NewQuestionForm() {
                     fullWidth
                     label="Question Type"
                     value={questionType}
-                    error={Boolean(touched.type && errors.type)}
+                    required
                     onChange={handleQuestionType}
-                    helperText={touched.type && errors.type}
                   >
                     {quesType.map((ques) => (
                       <MenuItem key={ques.id} value={ques.name}>
@@ -220,15 +213,13 @@ export default function NewQuestionForm() {
                   <TextField
                     select
                     fullWidth
-                    label="Domain"
-                    value={domainType}
-                    error={Boolean(touched.domain && errors.domain)}
-                    onChange={handleDomainType}
-                    helperText={touched.domain && errors.domain}
+                    label="Branch"
+                    value={branch}
+                    onChange={handleBranch}
                   >
-                    {domains.map((domain) => (
-                      <MenuItem key={domain.id} value={domain.name}>
-                        {domain.name}
+                    {branches.map((branch) => (
+                      <MenuItem key={branch.id} value={branch.name}>
+                        {branch.name}
                       </MenuItem>
                     ))}
                   </TextField>
@@ -238,23 +229,45 @@ export default function NewQuestionForm() {
                     <TextField
                       select
                       fullWidth
-                      label="Sub-Domain"
-                      value={subDomainType}
-                      error={Boolean(touched.subDomain && errors.subDomain)}
-                      onChange={handleSubDomainType}
-                      helperText={touched.subDomain && errors.subDomain}
+                      label="Semester"
+                      value={semseter}
+                      onChange={handleSemester}
                     >
-                      {subDomains.map((subDomain) => (
-                        <MenuItem key={subDomain.id} value={subDomain.name}>
-                          {subDomain.name}
+                      {semesters.map((semester) => (
+                        <MenuItem key={semester.id} value={semester.name}>
+                          {semester.name}
                         </MenuItem>
                       ))}
                     </TextField>
+
+                    <TextField
+                      fullWidth
+                      label="Subject Code"
+                      {...getFieldProps("subcode")}
+                    />
+                  </Stack>
+                </Stack>
+
+                <Stack spacing={3}>
+                  <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
                     <TextField
                       fullWidth
                       label="Topic"
                       {...getFieldProps("topic")}
                     />
+                    <TextField
+                      select
+                      fullWidth
+                      label="Difficulty"
+                      value={difficulty}
+                      onChange={handleDifficultyType}
+                    >
+                      {questionDifficulties.map((difficulty) => (
+                        <MenuItem key={difficulty.id} value={difficulty.name}>
+                          {difficulty.name}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                   </Stack>
                 </Stack>
 
@@ -262,33 +275,22 @@ export default function NewQuestionForm() {
                   <LabelStyle>Question</LabelStyle>
                   <DraftEditor
                     id="question"
-                    editorState={draftSimple1}
+                    editorState={questionContent}
                     placeholder="Enter your question here"
-                    onEditorStateChange={(values) => setDraftSimple1(values)}
-                    error={Boolean(touched.question && errors.question)}
+                    onEditorStateChange={(values) => setQuestionContent(values)}
                   />
-                  {touched.question && errors.question && (
-                    <FormHelperText
-                      error
-                      sx={{ px: 2, textTransform: "capitalize" }}
-                    >
-                      {touched.question && errors.question}
-                    </FormHelperText>
-                  )}
                 </div>
                 <TextField
                   fullWidth
                   label="Answer"
                   {...getFieldProps("answer")}
-                  error={Boolean(touched.answer && errors.answer)}
-                  helperText={touched.answer && errors.answer}
                 />
 
                 <div>
-                  <LabelStyle>Complete Solution (Optional)</LabelStyle>
+                  <LabelStyle>Complete Solution</LabelStyle>
                   <DraftEditor
-                    editorState={draftSimple}
-                    onEditorStateChange={(values) => setDraftSimple(values)}
+                    editorState={solution}
+                    onEditorStateChange={(values) => setSolution(values)}
                     placeholder="Enter your solution here"
                   />
                 </div>

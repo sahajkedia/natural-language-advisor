@@ -6,6 +6,7 @@ import NewQuestionForm from "./components/NewQuestionForm";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import ThemeConfig from "./theme";
 import GlobalStyles from "./theme/globalStyles";
+import Test from "./components/Test";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="/take-assessment" component={AssessmentForm} />
           <Route path="/load-questions" component={LoadQuestions} />
           <Route path="/video" component={Video} />
+          <Route path="/test" component={Test} />
         </Switch>
       </BrowserRouter>
     </ThemeConfig>
