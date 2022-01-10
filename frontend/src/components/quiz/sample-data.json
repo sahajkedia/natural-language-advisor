@@ -1,0 +1,22 @@
+[
+  {
+    "title": "OS computer abbreviation usually mean ?",
+    "options": [
+      "Order of Significance",
+      "Open Software",
+      "Operating System",
+      "None of these"
+    ],
+    "correctOptionIndex": 2
+  },
+  {
+    "title": "DBMS stands for ?",
+    "options": [
+      "Database Management System",
+      "Data Meme System",
+      "Data Makeup System",
+      "None of these"
+    ],
+    "correctOptionIndex": 0
+  }
+]

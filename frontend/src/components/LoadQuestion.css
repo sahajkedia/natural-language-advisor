@@ -81,7 +81,7 @@ body {
  .card-form__group .card-input__input:last-child {
 	 margin-right: 0;
 }
-button, button:focus {
+/* button, button:focus {
   width: 100%;
   height: 55px;
   background: var(--primarycolor);
@@ -104,7 +104,7 @@ button:hover {
 button:active {
   transform: scale(0.9);
   box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2);
-}
+} */
  
  @media screen and (max-width: 480px) {
 	 .card-form__button {
