@@ -3,7 +3,7 @@ import AssessmentForm from "./components/Assessmentform";
 import LoadQuestions from "./components/LoadQuestion";
 import Video from "./components/Video";
 import NewQuestionForm from "./components/NewQuestionForm";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ThemeConfig from "./theme";
 import GlobalStyles from "./theme/globalStyles";
 import Test from "./components/Test";
@@ -14,14 +14,14 @@ export default function App() {
     <ThemeConfig>
       <GlobalStyles />
       <BrowserRouter>
-        <Switch>
-          <Route exact path="/" component={NewQuestionForm} />
-          <Route path="/take-assessment" component={AssessmentForm} />
-          <Route path="/load-questions" component={LoadQuestions} />
-          <Route path="/video" component={Video} />
-          <Route path="/test" component={Test} />
-          <Route path="/quiz" component={Quiz} />
-        </Switch>
+        <Routes>
+          <Route exact path="/" element={<NewQuestionForm />} />
+          <Route path="/take-assessment" element={<AssessmentForm />} />
+          <Route path="/load-questions" element={<LoadQuestions />} />
+          <Route path="/video" element={<Video />} />
+          <Route path="/test" element={<Test />} />
+          <Route path="/quiz" element={<Quiz />} />
+        </Routes>
       </BrowserRouter>
     </ThemeConfig>
   );
